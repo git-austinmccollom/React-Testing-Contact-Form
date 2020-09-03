@@ -24,18 +24,18 @@ const testInput = ( labelTextRegex, inputTestId, valueToInput ) => {
   });
 }
 
-testInput(/first name*/i, 'firstName', 'edd');
-testInput(/last name*/i, 'lastName', 'burke');
+testInput(/first name*/i, 'firstName', 'austin');
+testInput(/last name*/i, 'lastName', 'mccollom');
 testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
 test(`form submits with required fields`, async () => {
   const wrapper = render(<App />);
   const first = wrapper.getByTestId('firstName');
   expect(first).toBeInTheDocument();
-  inputText(first, 'Edd');
+  inputText(first, 'Austin');
   const last = wrapper.getByTestId('lastName');
   expect(last).toBeInTheDocument();
-  inputText(last, 'Burke');
+  inputText(last, 'McCollom');
   const email = wrapper.getByTestId('email');
   expect(email).toBeInTheDocument();
   inputText(email, 'austinmccollom@gmail.com');
