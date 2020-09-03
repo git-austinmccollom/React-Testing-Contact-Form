@@ -16,11 +16,11 @@ const inputText = ( inputVariable, text) => {
 const testInput = ( labelTextRegex, inputTestId, valueToInput ) => {
   test(`Test label: ${labelTextRegex} and it's input exists, can be typed in, and shows error message`, () => {
     const wrapper = render(<App />);
-    const label = wrapper.getByText(labelTextRegex)
+    const label = wrapper.getByText(labelTextRegex);
     expect(label).toBeInTheDocument();
-    const input = wrapper.getByTestId(inputTestId)
+    const input = wrapper.getByTestId(inputTestId);
     expect(input).toBeInTheDocument();
-    inputText(input, valueToInput)
+    inputText(input, valueToInput);
   });
 }
 
@@ -28,11 +28,16 @@ testInput(/first name*/i, 'firstName', 'edd');
 testInput(/last name*/i, 'lastName', 'burke');
 testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
-// test(`form will not submit without required field First Name`, () => {
-//   const wrapper = render(<App />);
-//   const input = wrapper.getByTestId('lastName')
-//   expect(input).toBeInTheDocument();
-//   fireEvent.change(input, { target: { value: valueToInput } })
-//   expect(input.value).toBe(valueToInput)
-// } )
+test(`form will not submit without required field First Name`, () => {
+  const wrapper = render(<App />);
+  const last = wrapper.getByTestId('lastName');
+  expect(last).toBeInTheDocument();
+  inputText(last, 'Burke');
+  const email = wrapper.getByTestId('email');
+  expect(email).toBeInTheDocument();
+  inputText(email, 'austinmccollom@gmail.com');
+
+  const submit = wrapper.getByTestId("submit");
+  // fireEvent.click(submit);
+} )
 
