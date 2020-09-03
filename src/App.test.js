@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, act } from "@testing-library/react";
 import App from "./App";
 import ContactForm from "./components/ContactForm"
 
@@ -28,8 +28,11 @@ testInput(/first name*/i, 'firstName', 'edd');
 testInput(/last name*/i, 'lastName', 'burke');
 testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
-test(`form will not submit without required field First Name`, () => {
+test(`form submits with required fields`, () => {
   const wrapper = render(<App />);
+  const first = wrapper.getByTestId('firstName');
+  expect(first).toBeInTheDocument();
+  inputText(first, 'Edd');
   const last = wrapper.getByTestId('lastName');
   expect(last).toBeInTheDocument();
   inputText(last, 'Burke');
@@ -37,7 +40,8 @@ test(`form will not submit without required field First Name`, () => {
   expect(email).toBeInTheDocument();
   inputText(email, 'austinmccollom@gmail.com');
 
-  const submit = wrapper.getByTestId("submit");
-  // fireEvent.click(submit);
+  const submitButton = wrapper.getByTestId("submit");
+  expect(submitButton).toBeInTheDocument();
+  fireEvent.submit(submitButton)
 } )
 
