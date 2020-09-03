@@ -8,15 +8,19 @@ test("renders App without crashing", () => {
   console.log(wrapper.debug())
 });
 
+const inputText = ( inputVariable, text) => {
+  fireEvent.change(inputVariable, { target: { value: text } })
+  expect(inputVariable.value).toBe(text)
+}
+
 const testInput = ( labelTextRegex, inputTestId, valueToInput ) => {
   test(`Test label: ${labelTextRegex} and it's input exists, can be typed in, and shows error message`, () => {
     const wrapper = render(<App />);
-    const firstNameLabel = wrapper.getByText(labelTextRegex)
-    expect(firstNameLabel).toBeInTheDocument();
-    const firstNameInput = wrapper.getByTestId(inputTestId)
-    expect(firstNameInput).toBeInTheDocument();
-    fireEvent.change(firstNameInput, { target: { value: valueToInput } })
-    expect(firstNameInput.value).toBe(valueToInput)
+    const label = wrapper.getByText(labelTextRegex)
+    expect(label).toBeInTheDocument();
+    const input = wrapper.getByTestId(inputTestId)
+    expect(input).toBeInTheDocument();
+    inputText(input, valueToInput)
   });
 }
 
@@ -24,12 +28,11 @@ testInput(/first name*/i, 'firstName', 'edd');
 testInput(/last name*/i, 'lastName', 'burke');
 testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
-// test("First Name is labeled, can be typed in, and error message shows", () => {
+// test(`form will not submit without required field First Name`, () => {
 //   const wrapper = render(<App />);
-//   const firstNameLabel = wrapper.getByText(/first name*/i)
-//   expect(firstNameLabel).toBeInTheDocument();
-//   const firstNameInput = wrapper.getByPlaceholderText(/edd/i)
-//   expect(firstNameInput).toBeInTheDocument();
-//   fireEvent.change(firstNameInput, { target: { value: 'Edd' } })
-//   expect(firstNameInput.value).toBe('Edd')
-// });
+//   const input = wrapper.getByTestId('lastName')
+//   expect(input).toBeInTheDocument();
+//   fireEvent.change(input, { target: { value: valueToInput } })
+//   expect(input.value).toBe(valueToInput)
+// } )
+
