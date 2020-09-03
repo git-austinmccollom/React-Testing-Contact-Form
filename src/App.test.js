@@ -8,24 +8,26 @@ test("renders App without crashing", () => {
   console.log(wrapper.debug())
 });
 
-// const test_input = ( labelText, inputPlaceholderText, valueToInput ) => {
-//   test(`Test label: ${labelText} and it's input exists, can be typed in, and shows error message`, () => {
-//     const wrapper = render(<App />);
-//     const firstNameLabel = wrapper.getByText(`/${labelText}/i`)
-//     expect(firstNameLabel).toBeInTheDocument();
-//     const firstNameInput = wrapper.getByPlaceholderText(`/${inputPlaceholderText}/i`)
-//     expect(firstNameInput).toBeInTheDocument();
-//     fireEvent.change(firstNameInput, { target: { value: valueToInput } })
-//     expect(firstNameInput.value).toBe(valueToInput)
-//   });
-// }
+const testInput = ( labelTextRegex, inputPlaceholderTextRegex, valueToInput ) => {
+  test(`Test label: ${labelTextRegex} and it's input exists, can be typed in, and shows error message`, () => {
+    const wrapper = render(<App />);
+    const firstNameLabel = wrapper.getByText(labelTextRegex)
+    expect(firstNameLabel).toBeInTheDocument();
+    const firstNameInput = wrapper.getByPlaceholderText(inputPlaceholderTextRegex)
+    expect(firstNameInput).toBeInTheDocument();
+    fireEvent.change(firstNameInput, { target: { value: valueToInput } })
+    expect(firstNameInput.value).toBe(valueToInput)
+  });
+}
 
-test("First Name is labeled, can be typed in, and error message shows", () => {
-  const wrapper = render(<App />);
-  const firstNameLabel = wrapper.getByText(/first name*/i)
-  expect(firstNameLabel).toBeInTheDocument();
-  const firstNameInput = wrapper.getByPlaceholderText(/edd/i)
-  expect(firstNameInput).toBeInTheDocument();
-  fireEvent.change(firstNameInput, { target: { value: 'Edd' } })
-  expect(firstNameInput.value).toBe('Edd')
-});
+testInput(/first name*/i, /edd/i, 'edd');
+
+// test("First Name is labeled, can be typed in, and error message shows", () => {
+//   const wrapper = render(<App />);
+//   const firstNameLabel = wrapper.getByText(/first name*/i)
+//   expect(firstNameLabel).toBeInTheDocument();
+//   const firstNameInput = wrapper.getByPlaceholderText(/edd/i)
+//   expect(firstNameInput).toBeInTheDocument();
+//   fireEvent.change(firstNameInput, { target: { value: 'Edd' } })
+//   expect(firstNameInput.value).toBe('Edd')
+// });
