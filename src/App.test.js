@@ -8,19 +8,21 @@ test("renders App without crashing", () => {
   console.log(wrapper.debug())
 });
 
-const testInput = ( labelTextRegex, inputPlaceholderTextRegex, valueToInput ) => {
+const testInput = ( labelTextRegex, inputTestId, valueToInput ) => {
   test(`Test label: ${labelTextRegex} and it's input exists, can be typed in, and shows error message`, () => {
     const wrapper = render(<App />);
     const firstNameLabel = wrapper.getByText(labelTextRegex)
     expect(firstNameLabel).toBeInTheDocument();
-    const firstNameInput = wrapper.getByPlaceholderText(inputPlaceholderTextRegex)
+    const firstNameInput = wrapper.getByTestId(inputTestId)
     expect(firstNameInput).toBeInTheDocument();
     fireEvent.change(firstNameInput, { target: { value: valueToInput } })
     expect(firstNameInput.value).toBe(valueToInput)
   });
 }
 
-testInput(/first name*/i, /edd/i, 'edd');
+testInput(/first name*/i, 'firstName', 'edd');
+testInput(/last name*/i, 'lastName', 'burke');
+testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
 // test("First Name is labeled, can be typed in, and error message shows", () => {
 //   const wrapper = render(<App />);
