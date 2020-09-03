@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import App from "./App";
 import ContactForm from "./components/ContactForm"
 
@@ -28,7 +28,7 @@ testInput(/first name*/i, 'firstName', 'edd');
 testInput(/last name*/i, 'lastName', 'burke');
 testInput(/email*/i, 'email', 'austinmccollom@gmail.com')
 
-test(`form submits with required fields`, () => {
+test(`form submits with required fields`, async () => {
   const wrapper = render(<App />);
   const first = wrapper.getByTestId('firstName');
   expect(first).toBeInTheDocument();
@@ -39,9 +39,18 @@ test(`form submits with required fields`, () => {
   const email = wrapper.getByTestId('email');
   expect(email).toBeInTheDocument();
   inputText(email, 'austinmccollom@gmail.com');
+  const message = wrapper.getByTestId('message');
+  expect(message).toBeInTheDocument();
+  inputText(message, 'hello world');
 
+  //arrange
   const submitButton = wrapper.getByTestId("submit");
+  //assert
   expect(submitButton).toBeInTheDocument();
+  //act
   fireEvent.submit(submitButton)
+  //assert
+  // const output = wrapper.findByTestId('output')
+  await waitFor( () => {expect( wrapper.getByTestId('output') ).toBeInTheDocument()} )
 } )
 
